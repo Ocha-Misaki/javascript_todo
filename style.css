@@ -1,0 +1,16 @@
+@charset "utf-8";
+body{
+  width: 500px;
+  margin: 40px auto;
+}
+.header{
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#todo_form{
+  width: 80%;
+  margin: 18px;
+  padding: 4px;
+}
