@@ -18,12 +18,19 @@
   }
   const todo = new ToDo()
   const todos = document.getElementById('todos')
-
-  todos.textContent = todo.todos
+  const label = document.createElement('label')
+  const input = document.createElement('input')
+  const title = document.createTextNode(todo.todos)
+  input.type = 'checkbox'
+  label.appendChild(input)
+  label.appendChild(title)
+  todos.appendChild(label)
+  // label.textContent = todo.todos
+  
   
   addButton.addEventListener('click', () => {
     todo.add(form.value)
-    todos.textContent = todo.todos
+    label.textContent = todo.todos
   })
   
   
