@@ -1,9 +1,5 @@
 'use strict'
 {
-
-  const form = document.getElementById('todo_form')
-  const addButton = document.getElementById('addButton')
-  
   class ToDo {
     constructor(){
       this.todos = []
@@ -31,28 +27,19 @@
         this.title.textContent = todo
       })
     }
+
+    makeList(){
+      this.obj = {}
+      this.todos.push(this.obj)
+    }
   }
   const todo = new ToDo()
 
-  // const todos = document.getElementById('todos')
-  // const label = document.createElement('label')
-  // const input = document.createElement('input')
-  // const title = document.createTextNode(todo.todos)
-  // input.type = 'checkbox'
-  
-  // label.appendChild(input)
-  // label.appendChild(title)
-  // todos.appendChild(label)
-  // input.textContent = todo.todos
-  
-  
+  const form = document.getElementById('todo_form')
+  const addButton = document.getElementById('addButton')
   addButton.addEventListener('click', () => {
     todo.add(form.value)
     todo.createCheckbox()
+    todo.makeList()
   })
-  
-  
-  
-  
-  //formに入力された値を取得する
 }
