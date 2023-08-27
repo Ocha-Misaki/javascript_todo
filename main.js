@@ -8,7 +8,12 @@
     }
 
     add(title){
-      this.todos.push(title)
+      this.obj = {}
+      this.obj.id = 2
+      this.obj.title = title
+      this.obj.isCompleted = false
+      debugger
+      this.todos.push(this.obj)
       localStorage.setItem('todos',this.todos)
     }
 
@@ -23,15 +28,12 @@
       this.label.appendChild(this.title)
       this.todosElement.appendChild(this.label)
       
-      this.todos.forEach(todo => {
-        this.title.textContent = todo
-      })
+      
+        this.title.textContent = this.obj.title
+      
     }
 
-    makeList(){
-      this.obj = {}
-      this.todos.push(this.obj)
-    }
+    
   }
   const todo = new ToDo()
 
@@ -40,6 +42,5 @@
   addButton.addEventListener('click', () => {
     todo.add(form.value)
     todo.createCheckbox()
-    todo.makeList()
   })
 }
