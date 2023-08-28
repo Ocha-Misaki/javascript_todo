@@ -11,28 +11,33 @@
     }
 
     add(title){
-    
       this.createCheckbox(title)
       this.todos.push({id: 2, title: title, isCompleted: false})
       localStorage.setItem('todos', JSON.stringify(this.todos))
     }
 
-    createCheckbox(title){
-      this.todosElement = document.getElementById(this.elementId)
-      this.label = document.createElement('label')
-      this.input = document.createElement('input')
-      this.input.type = 'checkbox'
-      this.title = document.createTextNode(todo.todos)
-      this.deleteButton = document.createElement('button')
-      this.deleteButton.textContent = 'X'
-      this.deleteButton.setAttribute('id','delete')
-      this.label.appendChild(this.input)
-      this.label.appendChild(this.title)
-      this.label.appendChild(this.deleteButton)
-      this.todosElement.appendChild(this.label)
+    createCheckbox(title) {
+      // ”インスタンス変数” (this.xxx みたいなやつ)は少ないほうが使いやすくなる
+      // ”ローカル変数” はこの関数内（スコープといいます）でのみ有効（不具合があったときにデバッグしやすい）
+      // ローカル変数を使う
+      const taskCheckBox = document.createElement('input')
+      taskCheckBox.type = 'checkbox'
       
-      this.title.textContent = title
+      const taskTitle = document.createTextNode(title)
+      taskTitle.textContent = title
       
+      const deleteButton = document.createElement('button')
+      deleteButton.textContent = 'X'
+      deleteButton.setAttribute('id', 'delete')
+      
+      const taskLabel = document.createElement('label')
+      taskLabel.appendChild(taskCheckBox)
+      taskLabel.appendChild(taskTitle)
+      taskLabel.appendChild(deleteButton)
+
+      // 変数は使う直前に定義するとよい（todosElement のスコープが小さくなるため）
+      const todosElement = document.getElementById(this.elementId)
+      todosElement.appendChild(taskLabel)
     }
   }
   const todo = new ToDo('todos')
