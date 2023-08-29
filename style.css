@@ -14,3 +14,10 @@ body{
   margin: 18px;
   padding: 4px;
 }
+label{
+  display: flex;
+  margin: 16px;
+}
+#delete{
+  
+}
