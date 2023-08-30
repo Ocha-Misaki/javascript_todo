@@ -11,15 +11,25 @@
       this.elementId = elementId
     }
 
+    
     add(title){
       this.createCheckbox(title)
-      this.todos.push({id: 2, title: title, isCompleted: false})
+      let idArray = []
+      todos.forEach(t => {
+        idArray.push(t.id)
+      })
+      let maxId = Math.max(...idArray)
+      this.obj = {id: maxId++, title: title, isCompleted: false}
+      this.todos.push(this.obj)
       localStorage.setItem('todos', JSON.stringify(this.todos))
     }
 
     createCheckbox(title){
       const taskCheckbox = document.createElement('input')
       taskCheckbox.type = 'checkbox'
+      taskCheckbox.addEventListener('change',() => {
+        console.log(taskCheckbox.checked)
+      })
       
       const taskTitle = document.createTextNode(title)
       // taskTitle.textContent = title
@@ -36,6 +46,8 @@
       const todosElement = document.getElementById(this.elementId)
       todosElement.appendChild(taskLabel)
     }
+
+
   }
   
   const todo = new ToDo('todos')
@@ -43,6 +55,18 @@
   todos.forEach(t => {
     todo.createCheckbox(t.title)
   })
+
+  let id = 0
+  // const idArray = []
+  // todos.forEach(t => {
+  //   idArray.push(t.id)
+  // })
+
+  
+  // let maxId = Math.max(...idArray)
+  
+    
+  
   
   const form = document.getElementById('todo_form')
   const addButton = document.getElementById('addButton')
