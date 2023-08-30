@@ -13,37 +13,34 @@
 
     
     add(title){
-      this.createCheckbox(title)
       getMaxId()
-      const obj = {id: maxId + 1, title: title, isCompleted: false}
-      this.todos.push(obj)
+      const task = {id: generateTaskId(), title: title, isCompleted: false}
+      this.todos.push(task)
       localStorage.setItem('todos', JSON.stringify(this.todos))
+      this.createCheckbox(title)
     }
 
     createCheckbox(title){
       const taskCheckbox = document.createElement('input')
       taskCheckbox.type = 'checkbox'
       taskCheckbox.addEventListener('change',() => {
-        console.log(taskCheckbox.checked)
+        if(taskCheckbox.checked === true){
+          //isCompleted = trueのようにしたい
+        }
       })
       
-      const taskTitle = document.createTextNode(title)
-      // taskTitle.textContent = title
       
+      const taskTitle = document.createTextNode(title)
       const deleteButton = document.createElement('button')
       deleteButton.textContent = 'X'
       deleteButton.setAttribute('id','delete')
-      
       const taskLabel = document.createElement('label')
       taskLabel.appendChild(taskCheckbox)
       taskLabel.appendChild(taskTitle)
       taskLabel.appendChild(deleteButton)
-      
       const todosElement = document.getElementById(this.elementId)
       todosElement.appendChild(taskLabel)
     }
-
-
   }
   
   const todo = new ToDo('todos')
@@ -53,7 +50,7 @@
   })
 
   let maxId;
-  const getMaxId = () => {
+  const generateTaskId = () => {
     const idArray = []
       todos.forEach(t => {
         idArray.push(t.id)
@@ -63,8 +60,10 @@
       } else {
         maxId = Math.max(...idArray)
       }
+    // return todos.length === 0 ? 0: Math.max(todos.map(task => task.id))
+    //↑の実装について確認する
   }
-  
+
   const form = document.getElementById('todo_form')
   const addButton = document.getElementById('addButton')
   addButton.addEventListener('click', () => {
