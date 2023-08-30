@@ -14,13 +14,9 @@
     
     add(title){
       this.createCheckbox(title)
-      let idArray = []
-      todos.forEach(t => {
-        idArray.push(t.id)
-      })
-      let maxId = Math.max(...idArray)
-      this.obj = {id: maxId++, title: title, isCompleted: false}
-      this.todos.push(this.obj)
+      getMaxId()
+      const obj = {id: maxId + 1, title: title, isCompleted: false}
+      this.todos.push(obj)
       localStorage.setItem('todos', JSON.stringify(this.todos))
     }
 
@@ -56,17 +52,18 @@
     todo.createCheckbox(t.title)
   })
 
-  let id = 0
-  // const idArray = []
-  // todos.forEach(t => {
-  //   idArray.push(t.id)
-  // })
-
-  
-  // let maxId = Math.max(...idArray)
-  
-    
-  
+  let maxId;
+  const getMaxId = () => {
+    const idArray = []
+      todos.forEach(t => {
+        idArray.push(t.id)
+      })
+      if(idArray.length == 0){
+        maxId = 0
+      } else {
+        maxId = Math.max(...idArray)
+      }
+  }
   
   const form = document.getElementById('todo_form')
   const addButton = document.getElementById('addButton')
