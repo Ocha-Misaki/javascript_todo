@@ -15,21 +15,21 @@
       const task = { id: generateTaskId(), title: title, isCompleted: false }
       this.todos.push(task)
       localStorage.setItem('todos', JSON.stringify(this.todos))
-      this.createCheckbox(title)
+      this.createCheckbox(task)
     }
 
-    createCheckbox(title) {
+    createCheckbox(task) {
       const taskCheckbox = document.createElement('input')
       taskCheckbox.type = 'checkbox'
+      taskCheckbox.checked = task.isCompleted
       taskCheckbox.addEventListener('change', () => {
-        if (taskCheckbox.checked === true) {
-          console.log(taskCheckbox)
-          //isCompleted = trueのようにしたい
-          //削除のスタイルが当たるようにする
-        }
+        const checkedId = (t) => t.id == task.id
+        const i = this.todos.findIndex(checkedId)
+        this.todos[i].isCompleted = taskCheckbox.checked
+        localStorage.setItem('todos', JSON.stringify(this.todos))
+        //削除のスタイルが当たるようにする
       })
-
-      const taskTitle = document.createTextNode(title)
+      const taskTitle = document.createTextNode(task.title)
       const deleteButton = document.createElement('button')
       deleteButton.textContent = 'X'
       deleteButton.setAttribute('id', 'delete')
@@ -45,7 +45,7 @@
   const todo = new ToDo('todos')
   const todos = todo.todos
   todos.forEach((t) => {
-    todo.createCheckbox(t.title)
+    todo.createCheckbox(t)
   })
 
   const generateTaskId = () => {
