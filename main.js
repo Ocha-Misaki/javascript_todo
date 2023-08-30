@@ -48,9 +48,9 @@
     todo.createCheckbox(t.title)
   })
 
-  let maxId
   const generateTaskId = () => {
     const idArray = []
+    let maxId
     todos.forEach((t) => {
       idArray.push(t.id)
     })
@@ -59,7 +59,7 @@
     } else {
       maxId = Math.max(...idArray)
     }
-
+    return maxId + 1
     // return todos.length === 0 ? 0 : Math.max(todos.map(task => task.id))
     //↑の実装について確認する
   }
