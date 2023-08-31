@@ -26,18 +26,37 @@
         const i = this.todos.findIndex(checkedTaskId)
         this.todos[i].isCompleted = taskCheckbox.checked
         localStorage.setItem('todos', JSON.stringify(this.todos))
-        //削除のスタイルが当たるようにする
+        if (taskCheckbox.checked) {
+          taskLabel.classList.add('checked')
+        } else {
+          taskLabel.classList.remove('checked')
+        }
       })
       const taskTitle = document.createTextNode(task.title)
       const deleteButton = document.createElement('button')
       deleteButton.textContent = 'X'
-      deleteButton.setAttribute('id', 'delete')
+
+      deleteButton.addEventListener('click', () => {
+        const finishedTaskId = (t) => t.id == task.id
+        const i = this.todos.findIndex(finishedTaskId)
+        this.todos.splice(i, 1)
+        localStorage.setItem('todos', JSON.stringify(this.todos))
+        location.reload()
+      })
+
       const taskLabel = document.createElement('label')
       taskLabel.appendChild(taskCheckbox)
       taskLabel.appendChild(taskTitle)
       taskLabel.appendChild(deleteButton)
       const todosElement = document.getElementById(this.elementId)
       todosElement.appendChild(taskLabel)
+    }
+
+    purge() {
+      const restTodos = this.todos.filter((todo) => todo.isCompleted == false)
+      this.todos = restTodos
+      localStorage.setItem('todos', JSON.stringify(this.todos))
+      location.reload()
     }
   }
 
@@ -62,12 +81,14 @@
   }
 
   const form = document.getElementById('todo_form')
-  const addButton = document.getElementById('addButton')
+  const addButton = document.getElementById('add')
   addButton.addEventListener('click', () => {
     todo.add(form.value)
   })
 
-  //deleteボタンを押した時の実装を作成する
-
   //purgeボタンを押した時の実装を作成する
+  const purgeButton = document.getElementById('purge')
+  purgeButton.addEventListener('click', () => {
+    todo.purge()
+  })
 }

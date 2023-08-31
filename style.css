@@ -18,3 +18,7 @@ label{
   display: flex;
   margin: 16px;
 }
+.checked{
+  text-decoration: line-through;
+  opacity: 0.9;
+}
