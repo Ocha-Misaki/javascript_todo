@@ -1,52 +1,94 @@
 'use strict'
 {
   class ToDo {
-    constructor(elementId){
+    constructor(elementId) {
       this.todos = []
       const string = localStorage.getItem('todos')
-
-      if(string !== null){
+      if (string !== null) {
         this.todos = JSON.parse(string)
       }
       this.elementId = elementId
     }
 
-    add(title){
-      this.createCheckbox(title)
-      this.todos.push({id: 2, title: title, isCompleted: false})
+    add(title) {
+      const task = { id: generateTaskId(), title: title, isCompleted: false }
+      this.todos.push(task)
       localStorage.setItem('todos', JSON.stringify(this.todos))
+      this.createCheckbox(task)
     }
 
-    createCheckbox(title){
+    createCheckbox(task) {
       const taskCheckbox = document.createElement('input')
       taskCheckbox.type = 'checkbox'
-      
-      const taskTitle = document.createTextNode(title)
-      // taskTitle.textContent = title
-      
+      taskCheckbox.checked = task.isCompleted
+      taskCheckbox.addEventListener('change', () => {
+        const checkedTaskId = (t) => t.id == task.id
+        const i = this.todos.findIndex(checkedTaskId)
+        this.todos[i].isCompleted = taskCheckbox.checked
+        localStorage.setItem('todos', JSON.stringify(this.todos))
+        if (taskCheckbox.checked) {
+          taskLabel.classList.add('checked')
+        } else {
+          taskLabel.classList.remove('checked')
+        }
+      })
+      const taskTitle = document.createTextNode(task.title)
       const deleteButton = document.createElement('button')
       deleteButton.textContent = 'X'
-      deleteButton.setAttribute('id','delete')
-      
+
+      deleteButton.addEventListener('click', () => {
+        const finishedTaskId = (t) => t.id == task.id
+        const i = this.todos.findIndex(finishedTaskId)
+        this.todos.splice(i, 1)
+        localStorage.setItem('todos', JSON.stringify(this.todos))
+        location.reload()
+      })
+
       const taskLabel = document.createElement('label')
       taskLabel.appendChild(taskCheckbox)
       taskLabel.appendChild(taskTitle)
       taskLabel.appendChild(deleteButton)
-      
       const todosElement = document.getElementById(this.elementId)
       todosElement.appendChild(taskLabel)
     }
+
+    purge() {
+      const restTodos = this.todos.filter((todo) => todo.isCompleted == false)
+      this.todos = restTodos
+      localStorage.setItem('todos', JSON.stringify(this.todos))
+      location.reload()
+    }
   }
-  
+
   const todo = new ToDo('todos')
   const todos = todo.todos
-  todos.forEach(t => {
-    todo.createCheckbox(t.title)
+  todos.forEach((t) => {
+    todo.createCheckbox(t)
   })
-  
+
+  const generateTaskId = () => {
+    const idArray = []
+    let maxId
+    todos.forEach((t) => {
+      idArray.push(t.id)
+    })
+    if (idArray.length == 0) {
+      maxId = 0
+    } else {
+      maxId = Math.max(...idArray)
+    }
+    return maxId + 1
+  }
+
   const form = document.getElementById('todo_form')
-  const addButton = document.getElementById('addButton')
+  const addButton = document.getElementById('add')
   addButton.addEventListener('click', () => {
     todo.add(form.value)
+  })
+
+  //purgeボタンを押した時の実装を作成する
+  const purgeButton = document.getElementById('purge')
+  purgeButton.addEventListener('click', () => {
+    todo.purge()
   })
 }
