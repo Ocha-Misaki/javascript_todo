@@ -26,7 +26,11 @@
         const i = this.todos.findIndex(checkedTaskId)
         this.todos[i].isCompleted = taskCheckbox.checked
         localStorage.setItem('todos', JSON.stringify(this.todos))
-        //削除のスタイルが当たるようにする
+        if (taskCheckbox.checked) {
+          taskLabel.classList.add('checked')
+        } else {
+          taskLabel.classList.remove('checked')
+        }
       })
       const taskTitle = document.createTextNode(task.title)
       const deleteButton = document.createElement('button')
