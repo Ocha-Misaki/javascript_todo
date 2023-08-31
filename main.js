@@ -4,7 +4,6 @@
     constructor(elementId) {
       this.todos = []
       const string = localStorage.getItem('todos')
-
       if (string !== null) {
         this.todos = JSON.parse(string)
       }
@@ -23,8 +22,8 @@
       taskCheckbox.type = 'checkbox'
       taskCheckbox.checked = task.isCompleted
       taskCheckbox.addEventListener('change', () => {
-        const checkedId = (t) => t.id == task.id
-        const i = this.todos.findIndex(checkedId)
+        const checkedTaskId = (t) => t.id == task.id
+        const i = this.todos.findIndex(checkedTaskId)
         this.todos[i].isCompleted = taskCheckbox.checked
         localStorage.setItem('todos', JSON.stringify(this.todos))
         //削除のスタイルが当たるようにする
@@ -60,8 +59,6 @@
       maxId = Math.max(...idArray)
     }
     return maxId + 1
-    // return todos.length === 0 ? 0 : Math.max(todos.map(task => task.id))
-    //↑の実装について確認する
   }
 
   const form = document.getElementById('todo_form')
