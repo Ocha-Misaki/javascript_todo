@@ -31,7 +31,15 @@
       const taskTitle = document.createTextNode(task.title)
       const deleteButton = document.createElement('button')
       deleteButton.textContent = 'X'
-      deleteButton.setAttribute('id', 'delete')
+
+      deleteButton.addEventListener('click', () => {
+        const finishedTaskId = (t) => t.id == task.id
+        const i = this.todos.findIndex(finishedTaskId)
+        this.todos.splice(i, 1)
+        localStorage.setItem('todos', JSON.stringify(this.todos))
+        location.reload()
+      })
+
       const taskLabel = document.createElement('label')
       taskLabel.appendChild(taskCheckbox)
       taskLabel.appendChild(taskTitle)
@@ -62,12 +70,10 @@
   }
 
   const form = document.getElementById('todo_form')
-  const addButton = document.getElementById('addButton')
+  const addButton = document.getElementById('add')
   addButton.addEventListener('click', () => {
     todo.add(form.value)
   })
-
-  //deleteボタンを押した時の実装を作成する
 
   //purgeボタンを押した時の実装を作成する
 }
