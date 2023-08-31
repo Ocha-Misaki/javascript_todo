@@ -47,6 +47,13 @@
       const todosElement = document.getElementById(this.elementId)
       todosElement.appendChild(taskLabel)
     }
+
+    purge() {
+      const restTodos = this.todos.filter((todo) => todo.isCompleted == false)
+      this.todos = restTodos
+      localStorage.setItem('todos', JSON.stringify(this.todos))
+      location.reload()
+    }
   }
 
   const todo = new ToDo('todos')
@@ -76,4 +83,8 @@
   })
 
   //purgeボタンを押した時の実装を作成する
+  const purgeButton = document.getElementById('purge')
+  purgeButton.addEventListener('click', () => {
+    todo.purge()
+  })
 }
